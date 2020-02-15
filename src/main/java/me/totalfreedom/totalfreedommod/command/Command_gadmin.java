@@ -141,7 +141,7 @@ public class Command_gadmin extends FreedomCommand
                 String[] ip_parts = ip.split("\\.");
                 if (ip_parts.length == 4)
                 {
-                    ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                    ip = String.format("%s.%s.%s.%s", ip_parts[0], ip_parts[1], ip_parts[2], ip_parts[3]);
                 }
                 FUtil.adminAction(sender.getName(), String.format("Banning IP: %s.", ip), true);
                 plugin.bm.addBan(Ban.forPlayerIp(ip, sender, null, null));
@@ -156,7 +156,7 @@ public class Command_gadmin extends FreedomCommand
                 String[] ip_parts = ip.split("\\.");
                 if (ip_parts.length == 4)
                 {
-                    ip = String.format("%s.%s.*.*", ip_parts[0], ip_parts[1]);
+                    ip = String.format("%s.%s.%s.%s", ip_parts[0], ip_parts[1], ip_parts[2], ip_parts[3]);
                 }
                 FUtil.adminAction(sender.getName(), String.format("Banning Name: %s, IP: %s.", target.getName(), ip), true);
 
