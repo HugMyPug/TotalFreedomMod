@@ -45,11 +45,12 @@ public final class MasterBuilderWorld extends CustomWorld
 
         final Block welcomeSignBlock = world.getBlockAt(0, 50, 0);
         welcomeSignBlock.setType(Material.OAK_SIGN);
-        org.bukkit.block.Sign welcomeSign = (org.bukkit.block.Sign)welcomeSignBlock.getState();
 
-        org.bukkit.material.Sign signData = (org.bukkit.material.Sign)welcomeSign.getData();
-        signData.setFacingDirection(BlockFace.NORTH);
+        org.bukkit.block.data.type.Sign signBlockData = (org.bukkit.block.data.type.Sign) welcomeSignBlock.getBlockData();
+        signBlockData.setRotation(BlockFace.NORTH);
+        welcomeSignBlock.setBlockData(signBlockData);
 
+        org.bukkit.block.Sign welcomeSign = (org.bukkit.block.Sign) welcomeSignBlock.getState();
         welcomeSign.setLine(0, ChatColor.GREEN + "MB World");
         welcomeSign.setLine(1, ChatColor.DARK_GRAY + "---");
         welcomeSign.setLine(2, ChatColor.YELLOW + "Spawn Point");
