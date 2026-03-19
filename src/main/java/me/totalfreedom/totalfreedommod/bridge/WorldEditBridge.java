@@ -12,8 +12,12 @@ import org.bukkit.plugin.Plugin;
 public class WorldEditBridge extends FreedomService
 {
 
+<<<<<<< HEAD
     //
     private WorldEditPlugin worldeditPlugin = null;
+=======
+    private WorldEditPlugin worldedit = null;
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
 
     public WorldEditBridge(TotalFreedomMod plugin)
     {
@@ -28,6 +32,7 @@ public class WorldEditBridge extends FreedomService
     @Override
     protected void onStop()
     {
+<<<<<<< HEAD
     }
 
     public WorldEditPlugin getWorldEditPlugin()
@@ -52,6 +57,8 @@ public class WorldEditBridge extends FreedomService
         }
 
         return worldeditPlugin;
+=======
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
     }
 
     public void undo(Player player, int count)
@@ -61,13 +68,17 @@ public class WorldEditBridge extends FreedomService
             LocalSession session = getPlayerSession(player);
             if (session != null)
             {
-                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
-                if (bukkitPlayer != null)
+                final com.sk89q.worldedit.entity.Player wePlayer = getBukkitPlayer(player);
+                if (wePlayer != null)
                 {
                     for (int i = 0; i < count; i++)
                     {
+<<<<<<< HEAD
                         com.sk89q.worldedit.entity.Player fuckyou = (com.sk89q.worldedit.entity.Player)bukkitPlayer;
                         session.undo(session.getBlockBag(fuckyou), fuckyou);
+=======
+                        session.undo(session.getBlockBag(wePlayer), wePlayer);
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
                     }
                 }
             }
@@ -78,6 +89,7 @@ public class WorldEditBridge extends FreedomService
         }
     }
 
+<<<<<<< HEAD
     public void redo(Player player, int count)
     {
         try
@@ -102,6 +114,8 @@ public class WorldEditBridge extends FreedomService
         }
     }
 
+=======
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
     public void setLimit(Player player, int limit)
     {
         try
@@ -116,7 +130,27 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
+    }
 
+    private WorldEditPlugin getWorldEditPlugin()
+    {
+        if (worldedit == null)
+        {
+            try
+            {
+                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
+                if (we instanceof WorldEditPlugin)
+                {
+                    worldedit = (WorldEditPlugin) we;
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return worldedit;
     }
 
     public int getDefaultLimit()
@@ -162,7 +196,7 @@ public class WorldEditBridge extends FreedomService
         }
     }
 
-    private BukkitPlayer getBukkitPlayer(Player player)
+    private com.sk89q.worldedit.entity.Player getBukkitPlayer(Player player)
     {
         final WorldEditPlugin wep = getWorldEditPlugin();
         if (wep == null)
@@ -172,7 +206,8 @@ public class WorldEditBridge extends FreedomService
 
         try
         {
-            return wep.wrapPlayer(player);
+            BukkitPlayer bp = wep.wrapPlayer(player);
+            return (com.sk89q.worldedit.entity.Player) bp;
         }
         catch (Exception ex)
         {

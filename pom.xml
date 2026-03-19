@@ -86,6 +86,7 @@
         </repository>
 
         <repository>
+<<<<<<< HEAD
             <id>sk89q-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
@@ -103,6 +104,10 @@
         <repository>
             <id>rayzr-repo</id>
             <url>https://cdn.rawgit.com/Rayzr522/maven-repo/master/</url>
+=======
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
         </repository>
     </repositories>
 
@@ -158,9 +163,22 @@
         </dependency>
 
         <dependency>
+<<<<<<< HEAD
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
             <version>7.1.0</version>
+=======
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.0.12</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.3.12</version>
+>>>>>>> f9a42f04 (Fix WorldEdit and WorldGuard compatibility for 1.21.x)
             <scope>provided</scope>
         </dependency>
 
