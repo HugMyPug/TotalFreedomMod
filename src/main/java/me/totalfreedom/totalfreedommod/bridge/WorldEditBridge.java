@@ -12,26 +12,21 @@ import org.bukkit.plugin.Plugin;
 public class WorldEditBridge extends FreedomService
 {
 
-    private final WorldEditListener listener;
-    //
     private WorldEditPlugin worldedit = null;
 
     public WorldEditBridge(TotalFreedomMod plugin)
     {
         super(plugin);
-        listener = new WorldEditListener(plugin);
     }
 
     @Override
     protected void onStart()
     {
-        listener.register();
     }
 
     @Override
     protected void onStop()
     {
-        listener.unregister();
     }
 
     public void undo(Player player, int count)
@@ -41,12 +36,12 @@ public class WorldEditBridge extends FreedomService
             LocalSession session = getPlayerSession(player);
             if (session != null)
             {
-                final BukkitPlayer bukkitPlayer = getBukkitPlayer(player);
-                if (bukkitPlayer != null)
+                final com.sk89q.worldedit.entity.Player wePlayer = getBukkitPlayer(player);
+                if (wePlayer != null)
                 {
                     for (int i = 0; i < count; i++)
                     {
-                        session.undo(session.getBlockBag(bukkitPlayer), bukkitPlayer);
+                        session.undo(session.getBlockBag(wePlayer), wePlayer);
                     }
                 }
             }
@@ -55,30 +50,6 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
-    }
-
-    private WorldEditPlugin getWorldEditPlugin()
-    {
-        if (worldedit == null)
-        {
-            try
-            {
-                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
-                if (we != null)
-                {
-                    if (we instanceof WorldEditPlugin)
-                    {
-                        worldedit = (WorldEditPlugin) we;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
-        }
-
-        return worldedit;
     }
 
     public void setLimit(Player player, int limit)
@@ -95,7 +66,27 @@ public class WorldEditBridge extends FreedomService
         {
             FLog.severe(ex);
         }
+    }
 
+    private WorldEditPlugin getWorldEditPlugin()
+    {
+        if (worldedit == null)
+        {
+            try
+            {
+                Plugin we = server.getPluginManager().getPlugin("WorldEdit");
+                if (we instanceof WorldEditPlugin)
+                {
+                    worldedit = (WorldEditPlugin) we;
+                }
+            }
+            catch (Exception ex)
+            {
+                FLog.severe(ex);
+            }
+        }
+
+        return worldedit;
     }
 
     private LocalSession getPlayerSession(Player player)
@@ -117,7 +108,7 @@ public class WorldEditBridge extends FreedomService
         }
     }
 
-    private BukkitPlayer getBukkitPlayer(Player player)
+    private com.sk89q.worldedit.entity.Player getBukkitPlayer(Player player)
     {
         final WorldEditPlugin wep = getWorldEditPlugin();
         if (wep == null)
@@ -127,7 +118,8 @@ public class WorldEditBridge extends FreedomService
 
         try
         {
-            return wep.wrapPlayer(player);
+            BukkitPlayer bp = wep.wrapPlayer(player);
+            return (com.sk89q.worldedit.entity.Player) bp;
         }
         catch (Exception ex)
         {

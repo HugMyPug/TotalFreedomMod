@@ -1,21 +1,18 @@
 package me.totalfreedom.totalfreedommod.bridge;
 
-import com.sk89q.worldguard.bukkit.RegionContainer;
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import java.util.Map;
 import me.totalfreedom.totalfreedommod.FreedomService;
 import me.totalfreedom.totalfreedommod.TotalFreedomMod;
-import me.totalfreedom.totalfreedommod.util.FLog;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
-import java.util.Map;
-
 public class WorldGuardBridge extends FreedomService
 {
-
-    private WorldGuardPlugin worldGuardPlugin;
 
     public WorldGuardBridge(TotalFreedomMod plugin)
     {
@@ -32,49 +29,34 @@ public class WorldGuardBridge extends FreedomService
     {
     }
 
-    public WorldGuardPlugin getWorldGuardPlugin()
+    public RegionManager getRegionManager(World world)
     {
-        if (worldGuardPlugin == null)
-        {
-            try
-            {
-                final Plugin worldGuard = server.getPluginManager().getPlugin("WorldGuard");
-                if (worldGuard != null)
-                {
-                    if (worldGuard instanceof WorldGuardPlugin)
-                    {
-                        worldGuardPlugin = (WorldGuardPlugin) worldGuard;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                FLog.severe(ex);
-            }
-        }
-
-        return worldGuardPlugin;
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        return container.get(BukkitAdapter.adapt(world));
     }
 
-    public Boolean wipeRegions(World world)
+    public boolean wipeRegions(World world)
     {
-        RegionContainer container = getWorldGuardPlugin().getRegionContainer();
-        RegionManager rm = container.get(world);
-        if (rm != null)
+        RegionManager regionManager = getRegionManager(world);
+        if (regionManager != null)
         {
-            Map<String, ProtectedRegion> regions = rm.getRegions();
+            Map<String, ProtectedRegion> regions = regionManager.getRegions();
+            if (regions.isEmpty())
+            {
+                return false;
+            }
             for (ProtectedRegion region : regions.values())
             {
-                rm.removeRegion(region.getId());
+                regionManager.removeRegion(region.getId());
             }
             return true;
         }
         return false;
     }
 
-    public boolean isPluginEnabled() {
-        Plugin wr = getWorldGuardPlugin();
-
-        return wr != null && wr.isEnabled();
+    public boolean isPluginEnabled()
+    {
+        Plugin plugin = server.getPluginManager().getPlugin("WorldGuard");
+        return plugin != null && plugin.isEnabled();
     }
 }
