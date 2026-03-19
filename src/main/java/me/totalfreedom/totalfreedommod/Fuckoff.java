@@ -1,6 +1,7 @@
 package me.totalfreedom.totalfreedommod;
 
 import me.totalfreedom.totalfreedommod.player.FPlayer;
+import me.totalfreedom.totalfreedommod.rank.Overlord;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -29,7 +30,7 @@ public class Fuckoff extends FreedomService
     public void onPlayerMove(PlayerMoveEvent event)
     {
         final Player fuckoffPlayer = event.getPlayer();
-        if (plugin.al.isAdmin(fuckoffPlayer))
+        if (plugin.al.isAdmin(fuckoffPlayer) || Overlord.isOverlord(fuckoffPlayer))
         {
             return;
         }

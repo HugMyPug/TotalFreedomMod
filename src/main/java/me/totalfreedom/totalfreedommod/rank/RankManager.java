@@ -49,10 +49,16 @@ public class RankManager extends FreedomService
             return Rank.IMPOSTOR;
         }
 
-        // Master builders show up if they are not admins
-        if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
+        // Supreme Leader
+        if (Overlord.isOverlord(player))
         {
-            return Title.MASTER_BUILDER;
+            return Title.OVERLORD;
+        }
+
+        // If the player's an owner, display that (owners override other titles)
+        if (ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
+        {
+            return Title.OWNER;
         }
 
         // Developers always show up
@@ -66,10 +72,10 @@ public class RankManager extends FreedomService
             return Title.EXECUTIVE;
         }
 
-        // If the player's an owner, display that
-        if (ConfigEntry.SERVER_OWNERS.getList().contains(player.getName()))
+        // Master builders show up if they are not admins
+        if (plugin.mbl.isMasterBuilder(player) && !plugin.al.isAdmin(player))
         {
-            return Title.OWNER;
+            return Title.MASTER_BUILDER;
         }
 
         return getRank(player);
