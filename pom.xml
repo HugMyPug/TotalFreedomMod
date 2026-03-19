@@ -97,7 +97,7 @@
 
         <repository>
             <id>papermc</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
 
         <repository>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.0</version>
+            <version>1.18.34</version>
             <scope>provided</scope>
         </dependency>
 
@@ -135,12 +135,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.15-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.github.Pravian</groupId>
@@ -199,9 +193,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
+            <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.15.1-R0.1-SNAPSHOT</version>
+            <version>1.21.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
 
@@ -244,9 +238,9 @@
                 <version>3.7.0</version>
                 <configuration>
                     <outputFileName>TotalFreedomMod.jar</outputFileName>
-                    <compilerVersion>1.8</compilerVersion>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <compilerVersion>21</compilerVersion>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
 

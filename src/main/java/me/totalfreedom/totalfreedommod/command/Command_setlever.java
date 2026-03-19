@@ -6,11 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
+import org.bukkit.block.data.type.Switch;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.material.Lever;
 
 @CommandPermissions(level = Rank.NON_OP, source = SourceType.BOTH)
 @CommandParameters(description = "Set the on/off state of the lever at position x, y, z in world 'worldname'.", usage = "/<command> <x> <y> <z> <worldname> <on|off>")
@@ -64,11 +63,9 @@ public class Command_setlever extends FreedomCommand
 
         if (targetBlock.getType() == Material.LEVER)
         {
-            BlockState state = targetBlock.getState();
-            Lever lever = (Lever)state.getData();
-            lever.setPowered(leverOn);
-            state.setData(lever);
-            state.update();
+            Switch switchData = (Switch) targetBlock.getBlockData();
+            switchData.setPowered(leverOn);
+            targetBlock.setBlockData(switchData);
         }
         else
         {
